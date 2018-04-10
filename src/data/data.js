@@ -3,8 +3,59 @@ const HOUSE_OF_CARDS = require('../../assets/images/house-of-cards.jpeg');
 const LUKE_CAGE = require('../../assets/images/luke-cage.jpeg');
 const ORANGE_IS_THE_NEW_BLACK = require('../../assets/images/orange-is-the-new-black.jpeg');
 const STRANGER_THINGS = require('../../assets/images/stranger-things.jpeg');
+const API_KEY = require('../data/config_keys.js');
+const API = 'https://api.themoviedb.org/3/movie/popular?api_key='+API_KEY.API_KEY;
 
-const API_KEY = '166f37b2';
+import React from 'react';
+import { FlatList, ActivityIndicator, Text, View  } from 'react-native';
+
+export default class ShowData extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state ={ isLoading: true}
+  }
+
+  componentDidMount(){
+    return fetch(API)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.results,
+        }, function(){
+          console.log("dataSource is..."+ responseJson.results);
+        });
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  }
+
+  render(){
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
+    return(
+      <View style={{flex: 1, paddingTop:20}}>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({item}) => <Text>{item.title}, {item.release_date}</Text>}
+          keyExtractor={(item, index) => index}
+        />
+      </View>
+    );
+  }
+}
+
+
 
 const SHOWS = [
   {
@@ -114,4 +165,4 @@ const SHOWS = [
   },
 ];
 
-export default SHOWS;
+// export default SHOWS;

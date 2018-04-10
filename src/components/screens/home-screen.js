@@ -5,6 +5,18 @@ import { COLORS } from 'constants/styles';
 import { TouchableWithoutFeedback, ScrollView, TouchableOpacity } from 'react-native';
 import ShowData from 'data/data';
 import Icon from 'react-native-vector-icons/FontAwesome';
+const DARE_DEVIL = require('../../../assets/images/dare-devil.jpeg');
+
+
+const SHOWS = [
+  {
+    title: 'Daredevil',
+    summary: 'When a young boy vanishes, a small town uncovers a mystery involving a secret experiment, terrify supernatural forces, and one strange little girl',
+    starring: 'Winona Ryder, David Harbour, Mathew Modine',
+    creator: 'The Duffer Brothers',
+    image: DARE_DEVIL,
+  }
+]
 
 const Container = styled.View`
   display: flex;
@@ -91,6 +103,7 @@ const IconContainer = styled.View`
 `;
 
 class HomeScreen extends Component {
+
   constructor(props) {
     super(props);
 
@@ -108,7 +121,7 @@ class HomeScreen extends Component {
   }
 
   renderUserNavigation() {
-    const userNavigation = [{ title: 'BROWSE', id: 'browse' }, { title: 'my bucket', id: 'my-list' }];
+    const userNavigation = [{ title: 'BROWSE', id: 'browse' }, { title: '', id: 'my-list' }];
     const { selected } = this.state;
 
     return userNavigation.map((element, index) => {
@@ -145,6 +158,7 @@ class HomeScreen extends Component {
         <UserNavigationContainer>
           {this.renderUserNavigation()}
         </UserNavigationContainer>
+        <ShowData />
         <SubHeader>
           <SubHeaderTextContainer>
             <SubHeaderTitleText>
@@ -163,58 +177,12 @@ class HomeScreen extends Component {
         </SubHeader>
         <ScrollView horizontal={true}>
           <ImageContainer>
-            {ShowData.map((show, index) => (
+            {SHOWS.map((show, index) => (
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('ShowDetails', show)}
                 key={index}
               >
                 <Image source={show.image} key={index} />
-              </TouchableOpacity>
-            ))}
-          </ImageContainer>
-        </ScrollView>
-        <SubHeader>
-          <SubHeaderTitleText>
-            {'Continue Watching for JM'}
-          </SubHeaderTitleText>
-          <AllContainer>
-            <AllText>{'All'}</AllText>
-            <IconContainer>
-              <Icon name={'angle-right'} size={20} color={COLORS.GREY.BRIGHT_GREY} />
-            </IconContainer>
-          </AllContainer>
-        </SubHeader>
-        <ScrollView horizontal={true}>
-          <ImageContainer>
-            {ShowData.map((show, index) => (
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('ShowDetails', show)}
-                key={index}
-              >
-                <Image source={show.image} key={index} />
-              </TouchableOpacity>
-            ))}
-          </ImageContainer>
-        </ScrollView>
-        <SubHeader>
-          <SubHeaderTitleText>
-            {'Recently Added'}
-          </SubHeaderTitleText>
-          <AllContainer>
-            <AllText>{'All'}</AllText>
-            <IconContainer>
-              <Icon name={'angle-right'} size={20} color={COLORS.GREY.BRIGHT_GREY} />
-            </IconContainer>
-          </AllContainer>
-        </SubHeader>
-        <ScrollView horizontal={true}>
-          <ImageContainer>
-            {ShowData.map((show, index) => (
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('ShowDetails', show)}
-                key={index}
-              >
-                <Image source={show.image} />
               </TouchableOpacity>
             ))}
           </ImageContainer>
